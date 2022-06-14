@@ -101,7 +101,7 @@ export const ReceberPage = () => {
 
     return (
         <div className="container">
-            <h1 className="text-center">Registro de movimentaçao</h1>
+            <h1 className="text-center">Receber movimentaçao</h1>
             <div className="col-12 mb-3">
                 <Input
                     name="valor"
@@ -176,16 +176,16 @@ export const ReceberPage = () => {
                 <label>Conta</label>
                 <select
                     className="form-control"
-                    name="category"
+                    name="conta"
                     value={form.conta}
                     onChange={onChange}
                 >
-                    {categories.map((category) => (
-                        <option key={category.id} value={category.id}>{category.name}</option>
+                    {contas.map((conta) => (
+                        <option key={conta.id} value={conta.id}>{conta.numero}</option>
                     ))}
                 </select>
-                {errors.category && (
-                    <div className="invalid-feedback d-block">{errors.category}</div>
+                {errors.conta && (
+                    <div className="invalid-feedback d-block">{errors.conta}</div>
                 )}
             </div>
 

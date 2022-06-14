@@ -8,9 +8,10 @@ import ProductListPage from '../pages/ProductListPage';
 import CategoryFormPage from '../pages/CategoryFormPage';
 import ProductFormPage from '../pages/ProductFormPage';
 import PagarPage from '../pages/PagarPage';
-import ContasPage from '../pages/ContasPage';
+import ContasListPage from '../pages/ContasListPage';
 import { ContaFormPage } from '../pages/ContaFormPage';
 import { ReceberPage } from '../pages/ReceberPage';
+import MovimentacaoListPage from '../pages/MovimentacaoListPage';
 
 const AuthenticatedRoutes = () => {
     
@@ -21,10 +22,9 @@ const AuthenticatedRoutes = () => {
                 <Route path='/' element={<HomePage />} />
 
                 <Route path='/categories' element={<CategoryListPage />} />
-                <Route path='/pagar' element={<PagarPage />} />
+                
 
-
-                <Route path='/contas' element={<ContasPage />} />
+                <Route path='/contas' element={<ContasListPage />} />
                 <Route path='/contas/new' element={<ContaFormPage/>}/>
 
 
@@ -37,6 +37,9 @@ const AuthenticatedRoutes = () => {
 
 
                 <Route path='/receber'element={<ReceberPage/>}/>
+                <Route path='/pagar' element={<PagarPage />} />
+                <Route path='/extrato' element={<MovimentacaoListPage/>}/>
+
 
                 <Route path='*' element={<HomePage />} />
             </Routes>

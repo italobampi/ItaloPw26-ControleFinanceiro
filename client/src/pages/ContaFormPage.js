@@ -121,6 +121,24 @@ export const ContaFormPage = () => {
                     error={errors.banco}
                 />
             </div>
+            <div className="col-12 mb-3">
+                <label>Tipo Conta</label>
+                <select
+                    className="form-control"
+                    name="conta"
+                    value={form.tipoConta}
+                    onChange={onChange}
+                >
+                    
+                        <option key={1} value={1}>Conta cartão</option>
+                        <option key={2} value={2}>Conta corrente</option>
+                        <option key={3} value={3}>Conta poupança</option>
+                    
+                </select>
+                {errors.tipoConta && (
+                    <div className="invalid-feedback d-block">{errors.tipoConta}</div>
+                )}
+            </div>
             <div className="text-center">
                 <ButtonWithProgress
                     onClick={onSubmit}

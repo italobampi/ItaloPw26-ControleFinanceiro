@@ -17,7 +17,7 @@ const HomePage = () => {
                             <tb><Link className=' btn ' to={'/pagar'}>Pagar</Link></tb>
                         </tr>
                         <tr>
-                            <tb><Link className=' btn   ' to={'/categories'} >Extratos</Link></tb>
+                            <tb><Link className=' btn   ' to={'/extrato'} >Extratos</Link></tb>
                             <tb><Link className=' btn   ' to={'/receber'} >Receber</Link></tb>
                         </tr>
                     </tbody>
