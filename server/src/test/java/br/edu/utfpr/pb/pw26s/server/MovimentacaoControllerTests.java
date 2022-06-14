@@ -98,7 +98,7 @@ public class MovimentacaoControllerTests {
         movimentacao.setConta( contaRepository.save(conta));
         movimentacao.setDataPagamento(new Date(2020,10,22));
         movimentacao.setDataVencimento(new Date(2021,11,22));
-        movimentacao.setTipoMovimentaçao(TipoMovimentaçao.DESPESA);
+        movimentacao.setTipoMovimentacao(TipoMovimentaçao.DESPESA);
         movimentacao.setValor(1000.0);
         movimentacao.setValorPago(1000.0);
         movimentacao.setCategoria("dsf");

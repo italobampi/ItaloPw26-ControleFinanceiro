@@ -52,5 +52,5 @@ public class Movimentacao implements Serializable {
 
 @NotNull
 @Enumerated(EnumType.ORDINAL)
-    private TipoMovimentaçao tipoMovimentaçao;
+    private TipoMovimentaçao tipoMovimentacao;
 }
