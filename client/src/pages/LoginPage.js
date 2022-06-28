@@ -21,15 +21,19 @@ export const LoginPage = (props) => {
       username,
       password
     };
+
     AuthService.login(body).then((response) => {
       setPendingApiCall(false);
-      window.location.reload();
-      navigate('/home');
+      
+        window.location.reload();
+        navigate('/home');
+      
       
     }).catch((error) => {
       setPendingApiCall(false);
       setApiError('Login failed');
     });
+
   }
 
 

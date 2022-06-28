@@ -48,13 +48,14 @@ export const MovimentacaoListPage = () => {
                         <tr key={movimentacao.id}>
                             <td>{movimentacao.dataPagamento}</td>
                             <td>{movimentacao.categoria}</td>
+                            <td>{movimentacao.descricao}</td>
                             <td>{movimentacao.valorPago}</td>
                             <td>{movimentacao.tipoMovimentacao}</td>
 
                             <td>
-                               //<Link className="btn btn-primary"
+                               {/* //<Link className="btn btn-primary"
                                 //to={`/categories/${conta.id}`}
-                                > Editar//</Link>
+                                > Editar//</Link> */}
 
                                 <button className="btn btn-danger"
                                     onClick={() => onRemove(movimentacao.id)}>

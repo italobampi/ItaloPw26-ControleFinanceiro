@@ -23,7 +23,7 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-  return ''; //JSON.parse(localStorage.getItem("user"));
+  return axios.get("/login/user-info"),{headers: getAuthHeader} 
 };
 
 const isAuthenticated = () => {
@@ -37,5 +37,13 @@ const AuthService = {
   getCurrentUser,
   isAuthenticated,
 };
+const getAuthHeader = () => {
+  const token = JSON.parse(localStorage.getItem('token'));
+  if (token) {
+      return {Authorization: `Bearer ${token}`}; //'Bearer ' + token
+  } else {
+      return {}
+  }
+}
 
 export default AuthService;

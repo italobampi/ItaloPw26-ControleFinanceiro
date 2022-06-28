@@ -4,6 +4,7 @@ import logo from "../assets/utfpr-logo.png";
 import AuthService from "../services/auth.service";
 
 const NavBar = (props) => {
+  
 
   const onClickLogout = () => {
     AuthService.logout();
@@ -29,7 +30,7 @@ const NavBar = (props) => {
               <NavLink to="/contas" className={(navData) =>
                   navData.isActive ? "nav-link active" : "nav-link"
                 }>
-                Contas
+                Contas <h1>{}</h1>
               </NavLink>
             </li>
             <li className="nav-item">

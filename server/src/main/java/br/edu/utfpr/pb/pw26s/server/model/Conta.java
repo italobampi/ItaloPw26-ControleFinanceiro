@@ -31,7 +31,7 @@ public class Conta implements Serializable {
     private String banco;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private TipoConta tipoConta;
     @ManyToOne
     @JoinColumn(name = "user_id")

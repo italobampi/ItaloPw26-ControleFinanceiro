@@ -21,4 +21,5 @@ public class UsuarioController {
         return new GenericResponse("Registro salvo.");
     }
 
+
 }

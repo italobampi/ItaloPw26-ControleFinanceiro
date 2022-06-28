@@ -12,7 +12,7 @@ export const ReceberPage = () => {
         valorPago: '',
         categoria: '',
         dataVencimento: '',
-        datapagamento: '',
+        dataPagamento: '',
         descricao: '',
         conta: { id: null },
         tipoMovimentacao: 1
@@ -27,7 +27,7 @@ export const ReceberPage = () => {
     const [contas, setContas] = useState([]);
 
     useEffect(() => {
-        ContaService.findByUser().then((response) => {
+        ContaService.findByUser(1).then((response) => {
             setContas(response.data);
             if (id) {
                 MovimentacaoService.findOne(id).then((response) => {
@@ -38,7 +38,7 @@ export const ReceberPage = () => {
                             valorPago: response.data.valorPago,
                             categoria: response.data.categoria,
                             dataVencimento: response.data.dataVencimento,
-                            datapagamento: response.data.datapagamento,
+                            dataPagamento: response.data.dataPagamento,
                             descricao: response.data.descricao,
                             conta: response.data.conta.id,
                             tipoMovimentacao: response.data.tipoMovimentacao
@@ -78,9 +78,9 @@ export const ReceberPage = () => {
             valorPago: form.valorPago,
             categoria: form.categoria,
             dataVencimento: form.dataVencimento,
-            datapagamento: form.datapagamento,
+            dataPagamento: form.dataPagamento,
             descricao: form.descricao,
-            conta: form.conta.id,
+            conta: {id: form.conta},
             tipoMovimentacao: form.tipoMovimentacao
         };
         setPendingApiCall(true);
@@ -149,27 +149,27 @@ export const ReceberPage = () => {
             </div>
             <div className="col-12 mb-3">
                 <Input
-                    name="datapagamento"
+                    name="dataPagamento"
                     label="Data de Pagamento"
                     type="date"
                     placeholder="Informe a Data de Pagamento"
-                    value={form.dataVencimento}
+                    value={form.dataPagamento}
                     onChange={onChange}
-                    hasError={errors.dataVencimento && true}
-                    error={errors.dataVencimento}
+                    hasError={errors.dataPagamento && true}
+                    error={errors.dataPagamento}
                 />
             </div>
             <div className="col-12 mb-3">
                 <label>Descrição</label>
                 <textarea
                     className="form-control"
-                    name="description"
+                    name="descricao"
                     placeholder="Informe a descrição"
-                    value={form.description}
+                    value={form.descricao}
                     onChange={onChange}
                 ></textarea>
-                {errors.description && (
-                    <div className="invalid-feedback d-block">{errors.description}</div>
+                {errors.descricao && (
+                    <div className="invalid-feedback d-block">{errors.descricao}</div>
                 )}
             </div>
             <div className="col-12 mb-3">
@@ -177,11 +177,11 @@ export const ReceberPage = () => {
                 <select
                     className="form-control"
                     name="conta"
-                    value={form.conta}
+                    //value={form.conta}
                     onChange={onChange}
                 >
                     {contas.map((conta) => (
-                        <option key={conta.id} value={conta.id}>{conta.numero}</option>
+                        <option key={conta.id} value={conta.id}>{conta.numero}--{conta.tipoConta}</option>
                     ))}
                 </select>
                 {errors.conta && (

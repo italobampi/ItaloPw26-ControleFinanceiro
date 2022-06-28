@@ -5,13 +5,14 @@ import Input from '../components/input';
 import ContaService from '../services/ContaService';
 
 export const ContaFormPage = () => {
+
     const [form, setForm] = useState({
         id: null,
         numero: '',
         agencia: '',
         banco: '',
-        tipoConta: '',
-        user: { id: null },
+        tipoConta: null,
+        usuario: null
 
 
     });
@@ -20,6 +21,10 @@ export const ContaFormPage = () => {
     const [apiError, setApiError] = useState();
     const navigate = useNavigate();
     const { id } = useParams();
+
+
+
+
 
     useEffect(() => {
         if (id) {
@@ -31,7 +36,7 @@ export const ContaFormPage = () => {
                         agencia: response.data.agencia,
                         banco: response.data.banco,
                         tipoConta: response.data.tipoConta,
-                        user: response.data.user.id
+                        usuario: response.data.usuario.id
                     });
                     setApiError();
                 } else {
@@ -40,7 +45,10 @@ export const ContaFormPage = () => {
             }).catch((erro) => {
                 setApiError('Falha ao carregar a conta');
             });
+
         }
+
+
     }, [id]);
 
 
@@ -61,13 +69,25 @@ export const ContaFormPage = () => {
     };
 
     const onSubmit = () => {
+        // AuthService.getCurrentUser().then((response)=>{
+        //     if(response.data){
+        //         setForm({
+        //             // usuario:{id: response.data.id}
+        //             usuario:{id: 1}
+
+        //         });
+        //         setApiError('fygudsbhfghfhfj');
+        //     }
+        // }).catch((erro)=>{
+        //     setApiError('Falha ao carregar o usuario');
+        // })
         const conta = {
             id: form.id,
             numero: form.numero,
             agencia: form.agencia,
             banco: form.banco,
             tipoConta: form.tipoConta,
-            user: form.user
+            usuario: { id: 1 }
         };
         setPendingApiCall(true);
         ContaService.save(conta).then((response) => {
@@ -88,6 +108,7 @@ export const ContaFormPage = () => {
     return (
         <div className="container">
             <h1 className="text-center">Cadastro de Conta</h1>
+
             <div className="col-12 mb-3">
                 <Input
                     name="numero"
@@ -99,6 +120,7 @@ export const ContaFormPage = () => {
                     error={errors.numero}
                 />
             </div>
+
             <div className="col-12 mb-3">
                 <Input
                     name="agencia"
@@ -125,15 +147,15 @@ export const ContaFormPage = () => {
                 <label>Tipo Conta</label>
                 <select
                     className="form-control"
-                    name="conta"
-                    value={form.tipoConta}
+                    name="tipoConta"
+                    //value={}
                     onChange={onChange}
                 >
-                    
-                        <option key={1} value={1}>Conta cartão</option>
-                        <option key={2} value={2}>Conta corrente</option>
-                        <option key={3} value={3}>Conta poupança</option>
-                    
+
+                    <option value={1}>Conta cartão</option>
+                    <option value={2}>Conta corrente</option>
+                    <option value={1}>Conta poupança</option>
+
                 </select>
                 {errors.tipoConta && (
                     <div className="invalid-feedback d-block">{errors.tipoConta}</div>

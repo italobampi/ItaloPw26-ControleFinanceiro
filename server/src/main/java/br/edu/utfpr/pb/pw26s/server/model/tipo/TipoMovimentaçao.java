@@ -1,9 +1,9 @@
 package br.edu.utfpr.pb.pw26s.server.model.tipo;
 
 public enum TipoMovimentaçao {
-    RECEITA(1),
-    DESPESA(2),
-    TRANSFERENCIA(3);
+    RECEITA(0),
+    DESPESA(1),
+    TRANSFERENCIA(2);
 
     private int codigo;
 
