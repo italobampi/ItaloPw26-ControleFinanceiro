@@ -32,8 +32,8 @@ useEffect(() => {
     <div className="bg-white shadow-sm mb-2">
       <div className="container">
         <ul className="navbar-nav me-auto mb-2 mb-md-0">
-          <li className="nav-item">{userId.nome}</li>
-        <li className="nav-item">{userId.username}</li>
+          <li className="nav-item">{userId?.nome}</li>
+        <li className="nav-item">{userId?.username}</li>
         </ul>
         <nav className="navbar navbar-light navbar-expand">
           <Link to="/" className="navbar-brand">
