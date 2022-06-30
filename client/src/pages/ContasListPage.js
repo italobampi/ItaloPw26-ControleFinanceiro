@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import AuthService from '../services/auth.service';
 import ContaService from '../services/ContaService';
 
 
 export const ContasPage = () => {
     const [data, setData] = useState([]);
     const [apiError, setApiError] = useState();
+    const userId = JSON.parse(localStorage.getItem("user"));
+    
 
     useEffect(() => {
-        loadData();
+       loadData();
     }, []);
 
     const loadData = () => {
-        ContaService.findAll()
+
+      
+        ContaService.findByUser(userId.id)
             .then((response) => {
                 setData(response.data);
                 setApiError();
@@ -31,9 +36,9 @@ export const ContasPage = () => {
     }
     return (
         <div className="container">
-            <h1 className="text-center">Contas</h1>
+            <h1 className="text-center">Contas {}</h1>
             <div className="text-center">
-                <Link className="btn btn-success" to="/contas/new">Adicionar Conta</Link>
+                <Link className="btn btn-success" to="/contas/new">Adicionar Conta </Link>
             </div>
             <table className="table table-striped">
                 <thead>
@@ -54,7 +59,7 @@ export const ContasPage = () => {
                             <td>{conta.tipoConta}</td>
                             <td>
                                 <Link className="btn btn-primary"
-                                to={`/categories/${conta.id}`}
+                                to={`/contas/${conta.id}`}
                                 > Editar</Link>
 
                                 <button className="btn btn-danger"

@@ -2,8 +2,8 @@ package br.edu.utfpr.pb.pw26s.server.model.tipo;
 
 public enum TipoConta {
     CCORRENTE(0),
-    CPOUPANCA(2),
-    CARTAO(1);
+    CPOUPANCA(1),
+    CARTAO(2);
 
     private int codigo;
 

@@ -3,15 +3,13 @@ import { Route, Routes } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import HomePage from '../pages/HomePage';
 
-import CategoryListPage from '../pages/CategoryListPage';
-import ProductListPage from '../pages/ProductListPage';
-import CategoryFormPage from '../pages/CategoryFormPage';
-import ProductFormPage from '../pages/ProductFormPage';
-import PagarPage from '../pages/PagarPage';
+
+import MovimentacaoPage from '../pages/MovimentacaoPage';
 import ContasListPage from '../pages/ContasListPage';
 import { ContaFormPage } from '../pages/ContaFormPage';
-import { ReceberPage } from '../pages/ReceberPage';
+
 import MovimentacaoListPage from '../pages/MovimentacaoListPage';
+import ContaRecebePage from '../pages/ContaRecebePage';
 
 const AuthenticatedRoutes = () => {
     
@@ -21,24 +19,20 @@ const AuthenticatedRoutes = () => {
             <Routes>
                 <Route path='/' element={<HomePage />} />
 
-                <Route path='/categories' element={<CategoryListPage />} />
                 
 
                 <Route path='/contas' element={<ContasListPage />} />
                 <Route path='/contas/new' element={<ContaFormPage/>}/>
+                <Route path='/contas/:id' element={<ContaFormPage/>}/>
+                <Route path='/conta/recebe' element={<ContaRecebePage/>}/>
+
+                
 
 
-                <Route path='/categories/new' element={<CategoryFormPage />} />
-                <Route path='/categories/:id' element={<CategoryFormPage />} />
-
-                <Route path='/products' element={<ProductListPage />} />
-                <Route path='/products/new' element={<ProductFormPage />} />
-                <Route path='/products/:id' element={<ProductFormPage />} />
-
-
-                <Route path='/receber'element={<ReceberPage/>}/>
-                <Route path='/pagar' element={<PagarPage />} />
-                <Route path='/extrato' element={<MovimentacaoListPage/>}/>
+                
+                <Route path='/movimentacao' element={<MovimentacaoPage />} />
+                <Route path='/movimentacoes' element={<MovimentacaoListPage/>}/>
+                <Route path='/movimentacao/:id' element={<MovimentacaoPage />} />
 
 
                 <Route path='*' element={<HomePage />} />

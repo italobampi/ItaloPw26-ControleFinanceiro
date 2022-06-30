@@ -7,5 +7,6 @@ import java.util.List;
 public interface MovimentacaoService extends CrudService<Movimentacao, Long> {
 
     List<Movimentacao> findByDescricaoContaining(String description);
+    List<Movimentacao> findByContaUsuarioId(Long id);
 
 }

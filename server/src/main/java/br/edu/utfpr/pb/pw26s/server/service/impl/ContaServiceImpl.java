@@ -29,5 +29,10 @@ public class ContaServiceImpl extends CrudServiceImpl<Conta, Long>
     public List<Conta> findAllByUsuario_Id(Long id) {
         return contaRepository.findAllByUsuario_Id(id);
     }
+
+    @Override
+    public Conta findByNumero(String numero) {
+        return contaRepository.findByNumero(numero);
+    }
 }
 

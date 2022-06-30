@@ -23,7 +23,11 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-  return axios.get("/login/user-info"),{headers: getAuthHeader} 
+  return axios.get("/login/user-info",{headers:getAuthHeader()}).then((response) => {
+    if (response.data) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+  })
 };
 
 const isAuthenticated = () => {
@@ -38,12 +42,12 @@ const AuthService = {
   isAuthenticated,
 };
 const getAuthHeader = () => {
-  const token = JSON.parse(localStorage.getItem('token'));
-  if (token) {
-      return {Authorization: `Bearer ${token}`}; //'Bearer ' + token
-  } else {
-      return {}
-  }
+    const token = JSON.parse(localStorage.getItem('token'));
+    if (token) {
+        return {Authorization: `Bearer ${token}`}; //'Bearer ' + token
+    } else {
+        return {}
+    }
 }
 
 export default AuthService;

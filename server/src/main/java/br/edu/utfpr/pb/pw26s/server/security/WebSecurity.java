@@ -28,13 +28,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .exceptionHandling()
-                .authenticationEntryPoint( authenticationEntryPoint )
-            .and()
-            .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/users").permitAll()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
 
                 .anyRequest().authenticated()
-            .and()
+                .and()
                 // Filters
                 .addFilter(
                         new JWTAuthenticationFilter(authenticationManager(),
@@ -43,25 +43,27 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         new JWTAuthorizationFilter(authenticationManager(),
                                 getApplicationContext())
                 )
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
-        auth.userDetailsService( userDetailsService() )
-                .passwordEncoder( passwordEncoder() );
+        auth.userDetailsService(userDetailsService())
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
     public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) throws Exception {
-        web
-                .ignoring().antMatchers("/h2-console/**",
-                        "/swagger-resources/**",
-                        "/swagger-ui.html",
-                        "/swagger-ui/**",
-                        "/v2/api-docs",
-                        "/webjars/**");
+        web.ignoring().antMatchers("/h2-console/**","/v2/api-docs",
+                "/swagger-resources",
+                "/swagger-resources/**",
+                "/configuration/ui",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**",
+                "/v3/api-docs/**",
+                "/swagger-ui/**");
 
     }
 

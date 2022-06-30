@@ -17,13 +17,17 @@ const remove = (id) => {
 const findByUser =(id)=>{
     return axios.get(`/contas/user/${id}`,{headers:getAuthHeader()});
 }
+const findByNumeroAndAgenciaAndBanco =(numero)=>{
+    return axios.get(`recebe/${numero}`,{headers:getAuthHeader()});
+}
 
 const ContaService = {
     save,
     findAll,
     findOne,
     remove,
-    findByUser
+    findByUser,
+    findByNumeroAndAgenciaAndBanco
 }
 
 const getAuthHeader = () => {

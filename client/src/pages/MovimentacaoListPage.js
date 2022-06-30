@@ -6,13 +6,14 @@ import MovimentacaoService from '../services/MovimentacaoService';
 export const MovimentacaoListPage = () => {
     const [data, setData] = useState([]);
     const [apiError, setApiError] = useState();
+    const userId = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
         loadData();
     }, []);
 
     const loadData = () => {
-        MovimentacaoService.findAll()
+        MovimentacaoService.findAll(userId.id)
             .then((response) => {
                 setData(response.data);
                 setApiError();
@@ -53,9 +54,9 @@ export const MovimentacaoListPage = () => {
                             <td>{movimentacao.tipoMovimentacao}</td>
 
                             <td>
-                               {/* //<Link className="btn btn-primary"
-                                //to={`/categories/${conta.id}`}
-                                > Editar//</Link> */}
+                               <Link className="btn btn-primary"
+                               to={`/movimentacoes/${movimentacao.id}`}
+                                > Editar</Link>
 
                                 <button className="btn btn-danger"
                                     onClick={() => onRemove(movimentacao.id)}>

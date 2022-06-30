@@ -22,8 +22,13 @@ public class ContaController extends CrudController<Conta, Long> {
         return contaService;
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("user/{id}")
     public List<Conta> listacontas(@PathVariable Long id) {
         return contaService.findAllByUsuario_Id(id);
+    }
+
+    @GetMapping("recebe/{numero}")
+    public Conta findByNumeroAndAgenciaAndBanco(@PathVariable String numero) {
+        return contaService.findByNumero(numero);
     }
 }

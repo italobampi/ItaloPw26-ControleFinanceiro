@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ContaService extends CrudService<Conta, Long> {
     List<Conta> findAllByUsuario_Id(Long id);
+    Conta findByNumero(String numero);
 }

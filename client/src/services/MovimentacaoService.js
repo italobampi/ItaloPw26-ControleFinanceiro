@@ -3,8 +3,8 @@ const save = (movimentacao) => {
     return axios.post('/movimentacoes', movimentacao, {headers: getAuthHeader()});
 }
 
-const findAll = () => {
-    return axios.get('/movimentacoes', {headers: getAuthHeader()});
+const findAll = (id) => {
+    return axios.get(`/movimentacoes/user/${id}`, {headers: getAuthHeader()});
 }
 
 const findOne = (id) => {

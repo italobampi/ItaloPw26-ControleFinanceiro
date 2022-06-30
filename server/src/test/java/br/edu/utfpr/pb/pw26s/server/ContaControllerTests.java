@@ -90,7 +90,7 @@ class ContaControllerTests {
         Usuario usuario = createValidUser();
         usuario = usuarioRepository.save(usuario);
         Conta conta = new Conta();
-        conta.setTipoConta(TipoConta.CC);
+        conta.setTipoConta(TipoConta.CARTAO);
         conta.setAgencia("123123");
         conta.setBanco("12312");
         conta.setNumero("123123");

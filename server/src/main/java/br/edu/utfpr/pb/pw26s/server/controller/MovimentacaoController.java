@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+
+
+
+
+
 @RestController
 @RequestMapping("movimentacoes")
 public class MovimentacaoController extends CrudController<Movimentacao, Long> {
@@ -24,6 +30,10 @@ public class MovimentacaoController extends CrudController<Movimentacao, Long> {
     @GetMapping("descricao")
     public List<Movimentacao> findByDescription(@RequestParam("desc") String desc) {
         return this.movimentacaoService.findByDescricaoContaining(desc);
+    }
+    @GetMapping("user/{id}")
+    protected List<Movimentacao> findByContaUsuarioId(@PathVariable  Long id ){
+        return this.movimentacaoService.findByContaUsuarioId(id);
     }
 
 }

@@ -14,11 +14,11 @@ const HomePage = () => {
                                      Contas
                                 </Link>
                             </tb>
-                            <tb><Link className=' btn ' to={'/pagar'}>Pagar</Link></tb>
+                            <tb><Link className=' btn ' to={'/movimentacao'}>Pagar</Link></tb>
                         </tr>
                         <tr>
-                            <tb><Link className=' btn   ' to={'/extrato'} >Extratos</Link></tb>
-                            <tb><Link className=' btn   ' to={'/receber'} >Receber</Link></tb>
+                            <tb><Link className=' btn   ' to={'/movimentacoes'} >Extratos</Link></tb>
+                            <tb><Link className=' btn   ' to={'/movimentacao'} >Receber</Link></tb>
                         </tr>
                     </tbody>
                 </table></div>

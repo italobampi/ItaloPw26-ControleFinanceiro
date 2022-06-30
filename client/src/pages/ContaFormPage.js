@@ -6,14 +6,14 @@ import ContaService from '../services/ContaService';
 
 export const ContaFormPage = () => {
 
+    const userId = JSON.parse(localStorage.getItem("user"));
     const [form, setForm] = useState({
         id: null,
         numero: '',
         agencia: '',
         banco: '',
         tipoConta: null,
-        usuario: null
-
+        usuario: userId.id
 
     });
     const [errors, setErrors] = useState({});
@@ -21,9 +21,6 @@ export const ContaFormPage = () => {
     const [apiError, setApiError] = useState();
     const navigate = useNavigate();
     const { id } = useParams();
-
-
-
 
 
     useEffect(() => {
@@ -45,10 +42,7 @@ export const ContaFormPage = () => {
             }).catch((erro) => {
                 setApiError('Falha ao carregar a conta');
             });
-
         }
-
-
     }, [id]);
 
 
@@ -69,25 +63,13 @@ export const ContaFormPage = () => {
     };
 
     const onSubmit = () => {
-        // AuthService.getCurrentUser().then((response)=>{
-        //     if(response.data){
-        //         setForm({
-        //             // usuario:{id: response.data.id}
-        //             usuario:{id: 1}
-
-        //         });
-        //         setApiError('fygudsbhfghfhfj');
-        //     }
-        // }).catch((erro)=>{
-        //     setApiError('Falha ao carregar o usuario');
-        // })
         const conta = {
             id: form.id,
             numero: form.numero,
             agencia: form.agencia,
             banco: form.banco,
             tipoConta: form.tipoConta,
-            usuario: { id: 1 }
+            usuario: { id: form.usuario }
         };
         setPendingApiCall(true);
         ContaService.save(conta).then((response) => {
@@ -152,8 +134,8 @@ export const ContaFormPage = () => {
                     onChange={onChange}
                 >
 
-                    <option value={1}>Conta cartão</option>
-                    <option value={2}>Conta corrente</option>
+                    <option value={2}>Conta cartão</option>
+                    <option value={0}>Conta corrente</option>
                     <option value={1}>Conta poupança</option>
 
                 </select>

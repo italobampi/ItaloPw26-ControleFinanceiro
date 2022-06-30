@@ -27,4 +27,9 @@ public class MovimentacaoServiceImpl extends CrudServiceImpl<Movimentacao, Long>
     public List<Movimentacao> findByDescricaoContaining(String description) {
         return movimentacaoRepository.findByDescricaoContaining(description);
     }
+
+    @Override
+    public List<Movimentacao> findByContaUsuarioId(Long id) {
+        return movimentacaoRepository.findByContaUsuarioId(id);
+    }
 }
