@@ -63,11 +63,11 @@ export const ContaRecebePage = () => {
     };
 
     const onSubmit = () => {
-     
+
         setPendingApiCall(true);
         ContaService.findByNumeroAndAgenciaAndBanco(form.numero).then((response) => {
             const conta = response.data;
-            
+
             const movimentacao = {
                 id: null,
                 valor: transfer.valor,
@@ -76,13 +76,13 @@ export const ContaRecebePage = () => {
                 dataVencimento: transfer.dataVencimento,
                 dataPagamento: transfer.dataPagamento,
                 descricao: transfer.descricao //"tranferencia de "//+transfer.conta.usuario.nome+transfer.descricao,
-                ,conta: {id: conta.id},
+                , conta: { id: conta.id },
                 tipoMovimentacao: 0
             }
-           
+
             MovimentacaoService.save(transfer).then((response) => {
                 setPendingApiCall(false);
-    
+
             }).catch((error) => {
                 if (error.response.data && error.response.data.validationErrors) {
                     setErrors(error.response.data.validationErrors);
@@ -94,7 +94,7 @@ export const ContaRecebePage = () => {
             MovimentacaoService.save(movimentacao).then((response) => {
                 setPendingApiCall(false);
                 navigate('/movimentacoes');
-    
+
             }).catch((error) => {
                 if (error.response.data && error.response.data.validationErrors) {
                     setErrors(error.response.data.validationErrors);
@@ -103,9 +103,9 @@ export const ContaRecebePage = () => {
                 }
                 setPendingApiCall(false);
             });
-        
+
             setPendingApiCall(false);
-        
+
 
         }).catch((error) => {
             if (error.response.data && error.response.data.validationErrors) {
@@ -117,7 +117,7 @@ export const ContaRecebePage = () => {
         });
 
     };
- 
+
 
     return (
         <div className="container">
@@ -159,11 +159,11 @@ export const ContaRecebePage = () => {
                     error={errors.banco}
                 />
             </div>
-            
-            
+
+
             <div className="text-center">
                 <ButtonWithProgress
-                    onClick={onSubmit} 
+                    onClick={onSubmit}
                     disabled={pendingApiCall ? true : false}
                     pendingApiCall={pendingApiCall}
                     text="Transferir"

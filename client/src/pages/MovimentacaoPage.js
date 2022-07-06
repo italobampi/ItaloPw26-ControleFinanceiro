@@ -5,7 +5,7 @@ import Input from '../components/input';
 import ContaService from '../services/ContaService';
 import MovimentacaoService from '../services/MovimentacaoService';
 
-export const MovimentacaoPage = ()=>{
+export const MovimentacaoPage = () => {
     const userId = JSON.parse(localStorage.getItem("user"));
     const [form, setForm] = useState({
         id: null,
@@ -16,7 +16,8 @@ export const MovimentacaoPage = ()=>{
         dataPagamento: '',
         descricao: '',
         conta: { id: null },
-        tipoMovimentacao: null
+        tipoMovimentacao: null,
+        destino:null
 
 
     });
@@ -26,6 +27,7 @@ export const MovimentacaoPage = ()=>{
     const navigate = useNavigate();
     const { id } = useParams();
     const [contas, setContas] = useState([]);
+    var condi= null;
 
     useEffect(() => {
         ContaService.findByUser(userId.id).then((response) => {
@@ -58,11 +60,13 @@ export const MovimentacaoPage = ()=>{
 
     const onChange = (event) => {
         const { value, name } = event.target;
-        setForm((previousForm) => {
+        onTipo();
+        setForm((previousForm) => { 
             return {
                 ...previousForm,
                 [name]: value,
             };
+           
         });
         setErrors((previousErrors) => {
             return {
@@ -70,7 +74,18 @@ export const MovimentacaoPage = ()=>{
                 [name]: undefined,
             };
         });
+       
     };
+    const onTipo=()=>{
+        if (form.tipoMovimentacao === 2) {
+            form.descricao = 'merda';
+             condi= false;
+
+        }else{
+             condi= true;
+        }
+        return condi;
+    }
 
     const onSubmit = () => {
         const movimentacao = {
@@ -81,19 +96,21 @@ export const MovimentacaoPage = ()=>{
             dataVencimento: form.dataVencimento,
             dataPagamento: form.dataPagamento,
             descricao: form.descricao,
-            conta: {id: form.conta},
+            conta: { id: form.conta },
             tipoMovimentacao: form.tipoMovimentacao
         };
         setPendingApiCall(true);
-        if(form.tipoMovimentacao==2){
-            localStorage.setItem("movimentação", JSON.stringify(movimentacao));
-            navigate('/conta/recebe');
+        if (form.tipoMovimentacao > 1) {
+            MovimentacaoService.transferencia(movimentacao,form.destino).then((response)=>{
+                setPendingApiCall(false);
+                navigate('/movimentacoes');
+            })
 
-        }else{
+        } else {
             MovimentacaoService.save(movimentacao).then((response) => {
                 setPendingApiCall(false);
                 navigate('/movimentacoes');
-    
+
             }).catch((error) => {
                 if (error.response.data && error.response.data.validationErrors) {
                     setErrors(error.response.data.validationErrors);
@@ -103,13 +120,12 @@ export const MovimentacaoPage = ()=>{
                 setPendingApiCall(false);
             });
         }
-        
-        
-
     };
+    
+    
 
     return (
-        <div className="container">
+        <div className="container col-8 mb-3">
             <h1 className="text-center">movimentaçao</h1>
             <div className="col-12 mb-3">
                 <label>Tipo Movimentacao</label>
@@ -119,16 +135,16 @@ export const MovimentacaoPage = ()=>{
                     onChange={onChange}
                 >
 
-                    <option value={0}>RECEITA</option>
-                    <option value={1}>DESPESA</option>
-                    <option value={2}>TRANSFERENCIA</option>
+                    <option value={0}  onChange={onChange}>RECEITA</option>
+                    <option value={1}  onChange={onChange}>DESPESA</option>
+                    <option value={2}  onChange={onChange}>TRANSFERENCIA</option>
 
                 </select>
                 {errors.tipoConta && (
                     <div className="invalid-feedback d-block">{errors.tipoConta}</div>
                 )}
             </div>
-            <div className="col-12 mb-3">
+            <div className="col-12">
                 <Input
                     name="valor"
                     label="Valor"
@@ -193,6 +209,7 @@ export const MovimentacaoPage = ()=>{
                     placeholder="Informe a descrição"
                     value={form.descricao}
                     onChange={onChange}
+                
                 ></textarea>
                 {errors.descricao && (
                     <div className="invalid-feedback d-block">{errors.descricao}</div>
@@ -203,6 +220,24 @@ export const MovimentacaoPage = ()=>{
                 <select
                     className="form-control"
                     name="conta"
+                    //value={form.conta}
+                    onChange={onChange}
+                    
+                >
+                    {contas.map((conta) => (
+                        <option key={conta.id} value={conta.id}>{conta.numero}--{conta.tipoConta}</option>
+                    ))}
+                </select>
+                {errors.conta && (
+                    <div className="invalid-feedback d-block">{errors.conta}</div>
+                )}
+            </div>
+            
+            <div className="col-12 mb-3 " id='contaColla' hidden={form.tipoMovimentacao>1 ? false :true}>
+                <label>Conta Destino</label>
+                <select
+                    className="form-control"
+                    name="destino"
                     //value={form.conta}
                     onChange={onChange}
                 >

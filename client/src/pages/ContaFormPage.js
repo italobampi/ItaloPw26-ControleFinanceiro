@@ -88,10 +88,10 @@ export const ContaFormPage = () => {
     };
 
     return (
-        <div className="container">
+        <div className="container col-8  mb-3">
             <h1 className="text-center">Cadastro de Conta</h1>
 
-            <div className="col-12 mb-3">
+            <div>
                 <Input
                     name="numero"
                     label="Numero"
@@ -103,7 +103,7 @@ export const ContaFormPage = () => {
                 />
             </div>
 
-            <div className="col-12 mb-3">
+            <div >
                 <Input
                     name="agencia"
                     label="Agencia"
@@ -114,7 +114,7 @@ export const ContaFormPage = () => {
                     error={errors.agencia}
                 />
             </div>
-            <div className="col-12 mb-3">
+            <div >
                 <Input
                     name="banco"
                     label="Banco"
@@ -125,7 +125,7 @@ export const ContaFormPage = () => {
                     error={errors.banco}
                 />
             </div>
-            <div className="col-12 mb-3">
+            <div>
                 <label>Tipo Conta</label>
                 <select
                     className="form-control"

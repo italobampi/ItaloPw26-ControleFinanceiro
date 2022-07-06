@@ -7,12 +7,14 @@ export const MovimentacaoListPage = () => {
     const [data, setData] = useState([]);
     const [apiError, setApiError] = useState();
     const userId = JSON.parse(localStorage.getItem("user"));
+    const total =null;
 
     useEffect(() => {
         loadData();
     }, []);
 
     const loadData = () => {
+      
         MovimentacaoService.findAll(userId.id)
             .then((response) => {
                 setData(response.data);
@@ -20,6 +22,14 @@ export const MovimentacaoListPage = () => {
             })
             .catch((error) => {
                 setApiError('Falha ao carregar as Movimentaçoes');
+            });
+
+
+            MovimentacaoService.findSaldoDespesaByContaUsuarioId(userId.id)
+            .then((response)=>{
+                total=response.data.total;
+            }) .catch((error) => {
+                setApiError('Falha ao carregar saldo');
             });
     };
     const onRemove = (id) => {
@@ -30,9 +40,38 @@ export const MovimentacaoListPage = () => {
             setApiError('Falha ao remover a Movimentação');
         });
     }
+    const onReceita =()=>{
+        setData([]);
+        MovimentacaoService.findReceitaByContaUsuarioId(userId.id).then((response)=>{
+            setData(response.data)
+        }).catch((error) => {
+            setApiError('Falha ao carregar as Movimentaçoes');
+        });
+
+
+    }
+    const onDespesa =()=>{
+        setData([]);
+        MovimentacaoService.findDespesaByContaUsuarioId(userId.id).then((response)=>{
+            setData(response.data)
+        }).catch((error) => {
+            setApiError('Falha ao carregar as Movimentaçoes');
+        });
+
+
+    }
     return (
-        <div className="container">
+        <div className="container col-md-11" >
             <h1 className="text-center">Movimentacoes</h1>
+            <div className="text-center">
+                <Link className="btn btn-success" to="/movimentacao">Adicionar Movimentação </Link>
+            </div>
+            <div className='row justify-content-evenly' >
+            <div className='card col-md-2 text-center' onClick={onReceita}>TODOS</div>
+            <div className='card col-md-2 text-center' onClick={onReceita}>RECEITA</div>
+            <div className='card col-md-2 text-center'  onClick={onDespesa}>DESPESA</div>
+            <div className='card col-md-2 text-center'>TRANSFERENCIA</div>
+            </div>
             <table className="table table-striped">
                 <thead>
                     <tr>
@@ -55,7 +94,7 @@ export const MovimentacaoListPage = () => {
 
                             <td>
                                <Link className="btn btn-primary"
-                               to={`/movimentacoes/${movimentacao.id}`}
+                               to={`/movimentacao/${movimentacao.id}`}
                                 > Editar</Link>
 
                                 <button className="btn btn-danger"
@@ -67,6 +106,11 @@ export const MovimentacaoListPage = () => {
                     ))}
                 </tbody>
             </table>
+            <div className='row justify-content-evenly'>
+                <div className=' col-md-6 text-center'>Total</div>
+                <div className=' col-md-6 text-center'>{total}</div>
+            </div>
+            <div className=''></div>
             {apiError && (<div className="alert alert-danger">{apiError}</div>)}
         </div>
     );
