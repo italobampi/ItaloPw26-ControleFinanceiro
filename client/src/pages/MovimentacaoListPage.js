@@ -7,14 +7,16 @@ export const MovimentacaoListPage = () => {
     const [data, setData] = useState([]);
     const [apiError, setApiError] = useState();
     const userId = JSON.parse(localStorage.getItem("user"));
-    const total =null;
+    const [total, setTotal]= useState();
+    var vTotal = null;
+
 
     useEffect(() => {
         loadData();
     }, []);
 
     const loadData = () => {
-      
+
         MovimentacaoService.findAll(userId.id)
             .then((response) => {
                 setData(response.data);
@@ -25,10 +27,12 @@ export const MovimentacaoListPage = () => {
             });
 
 
-            MovimentacaoService.findSaldoDespesaByContaUsuarioId(userId.id)
-            .then((response)=>{
-                total=response.data.total;
-            }) .catch((error) => {
+        MovimentacaoService.findSaldoByContaUsuarioId(userId.id)
+            .then((response) => {
+                setTotal(response.data)
+
+               vTotal= total.total;
+            }).catch((error) => {
                 setApiError('Falha ao carregar saldo');
             });
     };
@@ -40,25 +44,29 @@ export const MovimentacaoListPage = () => {
             setApiError('Falha ao remover a Movimentação');
         });
     }
-    const onReceita =()=>{
+    const onReceita = () => {
         setData([]);
-        MovimentacaoService.findReceitaByContaUsuarioId(userId.id).then((response)=>{
+        MovimentacaoService.findReceitaByContaUsuarioId(userId.id).then((response) => {
             setData(response.data)
         }).catch((error) => {
             setApiError('Falha ao carregar as Movimentaçoes');
         });
-
-
     }
-    const onDespesa =()=>{
+    const onDespesa = () => {
         setData([]);
-        MovimentacaoService.findDespesaByContaUsuarioId(userId.id).then((response)=>{
+        MovimentacaoService.findDespesaByContaUsuarioId(userId.id).then((response) => {
             setData(response.data)
         }).catch((error) => {
             setApiError('Falha ao carregar as Movimentaçoes');
         });
-
-
+    }
+    const onTranferencia = () => {
+        setData([]);
+        MovimentacaoService.findTranferenciaByContaUsuarioId(userId.id).then((response) => {
+            setData(response.data)
+        }).catch((error) => {
+            setApiError('Falha ao carregar as Movimentaçoes');
+        });
     }
     return (
         <div className="container col-md-11" >
@@ -67,10 +75,10 @@ export const MovimentacaoListPage = () => {
                 <Link className="btn btn-success" to="/movimentacao">Adicionar Movimentação </Link>
             </div>
             <div className='row justify-content-evenly' >
-            <div className='card col-md-2 text-center' onClick={onReceita}>TODOS</div>
-            <div className='card col-md-2 text-center' onClick={onReceita}>RECEITA</div>
-            <div className='card col-md-2 text-center'  onClick={onDespesa}>DESPESA</div>
-            <div className='card col-md-2 text-center'>TRANSFERENCIA</div>
+                <div className='card col-md-2 text-center' onClick={loadData}>TODOS</div>
+                <div className='card col-md-2 text-center' onClick={onReceita}>RECEITA</div>
+                <div className='card col-md-2 text-center' onClick={onDespesa}>DESPESA</div>
+                <div className='card col-md-2 text-center' onClick={onTranferencia}>TRANSFERENCIA</div>
             </div>
             <table className="table table-striped">
                 <thead>
@@ -93,8 +101,8 @@ export const MovimentacaoListPage = () => {
                             <td>{movimentacao.tipoMovimentacao}</td>
 
                             <td>
-                               <Link className="btn btn-primary"
-                               to={`/movimentacao/${movimentacao.id}`}
+                                <Link className="btn btn-primary"
+                                    to={`/movimentacao/${movimentacao.id}`}
                                 > Editar</Link>
 
                                 <button className="btn btn-danger"
@@ -108,7 +116,7 @@ export const MovimentacaoListPage = () => {
             </table>
             <div className='row justify-content-evenly'>
                 <div className=' col-md-6 text-center'>Total</div>
-                <div className=' col-md-6 text-center'>{total}</div>
+                <div className=' col-md-6 text-center'>{vTotal}</div>
             </div>
             <div className=''></div>
             {apiError && (<div className="alert alert-danger">{apiError}</div>)}

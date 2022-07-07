@@ -88,6 +88,10 @@ export const MovimentacaoPage = () => {
     }
 
     const onSubmit = () => {
+        form.tipoMovimentacao = form.tipoMovimentacao != null ? form.tipoMovimentacao : 0;
+        const vconta = contas[0];
+        form.conta = form.conta != null ? form.conta : vconta.id;
+        form.destino = form.destino != null ? form.destino : vconta.id;
         const movimentacao = {
             id: form.id,
             valor: form.valor,
@@ -104,7 +108,14 @@ export const MovimentacaoPage = () => {
             MovimentacaoService.transferencia(movimentacao,form.destino).then((response)=>{
                 setPendingApiCall(false);
                 navigate('/movimentacoes');
-            })
+            }).catch((error) => {
+                if (error.response.data && error.response.data.validationErrors) {
+                    setErrors(error.response.data.validationErrors);
+                } else {
+                    setApiError('Falha ao salvar a Movimentaçao.');
+                }
+                setPendingApiCall(false);
+            });
 
         } else {
             MovimentacaoService.save(movimentacao).then((response) => {

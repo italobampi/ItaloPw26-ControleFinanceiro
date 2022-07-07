@@ -63,6 +63,7 @@ export const ContaFormPage = () => {
     };
 
     const onSubmit = () => {
+        form.tipoConta = form.tipoConta != null ? form.tipoConta : 0;
         const conta = {
             id: form.id,
             numero: form.numero,
@@ -80,7 +81,7 @@ export const ContaFormPage = () => {
             if (error.response.data && error.response.data.validationErrors) {
                 setErrors(error.response.data.validationErrors);
             } else {
-                setApiError('Falha ao salvar categoria.');
+                setApiError('Falha ao salvar categoria.'+form.tipoConta);
             }
             setPendingApiCall(false);
         });
@@ -133,11 +134,11 @@ export const ContaFormPage = () => {
                     //value={}
                     onChange={onChange}
                 >
-
-                    <option value={2}>Conta cartão</option>
                     <option value={0}>Conta corrente</option>
-                    <option value={1}>Conta poupança</option>
 
+
+                    <option value={1}>Conta poupança</option>
+                    <option value={2}>Conta cartão</option>
                 </select>
                 {errors.tipoConta && (
                     <div className="invalid-feedback d-block">{errors.tipoConta}</div>

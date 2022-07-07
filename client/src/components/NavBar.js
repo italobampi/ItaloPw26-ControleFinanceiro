@@ -58,7 +58,7 @@ useEffect(() => {
               <NavLink to="/products" className={(navData) =>
                   navData.isActive ? "nav-link active" : "nav-link"
                 }>
-                Produtos
+                Movimentaçoes
               </NavLink>
               
             </li>

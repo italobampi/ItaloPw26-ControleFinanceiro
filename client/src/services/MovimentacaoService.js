@@ -21,12 +21,10 @@ const findDespesaByContaUsuarioId = (id) => {
 const findReceitaByContaUsuarioId = (id) => {
     return axios.get(`/movimentacoes/user/receita/${id}`, {headers: getAuthHeader()});
 }
-const findSaldoDespesaByContaUsuarioId = (id) => {
-    return axios.get(`/movimentacoes/saldo/despesa/${id}`, {headers: getAuthHeader()});
+const findTranferenciaByContaUsuarioId = (id) => {
+    return axios.get(`/movimentacoes/user/transferencia/${id}`, {headers: getAuthHeader()});
 }
-const findSaldoReceitaByContaUsuarioId = (id) => {
-    return axios.get(`/movimentacoes/saldo/receita/${id}`, {headers: getAuthHeader()});
-}
+
 const findSaldoByContaUsuarioId = (id) => {
     return axios.get(`/movimentacoes/saldo/${id}`, {headers: getAuthHeader()});
 }
@@ -41,9 +39,8 @@ const MovimentacaoService = {
     remove,
     findDespesaByContaUsuarioId,
     findReceitaByContaUsuarioId,
+    findTranferenciaByContaUsuarioId,
     findSaldoByContaUsuarioId,
-    findSaldoDespesaByContaUsuarioId,
-    findSaldoReceitaByContaUsuarioId,
     transferencia
 }
 

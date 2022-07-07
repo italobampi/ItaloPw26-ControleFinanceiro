@@ -1,8 +1,10 @@
 package br.edu.utfpr.pb.pw26s.server.controller;
 
+import br.edu.utfpr.pb.pw26s.server.model.Conta;
 import br.edu.utfpr.pb.pw26s.server.model.Movimentacao;
-import br.edu.utfpr.pb.pw26s.server.model.Total;
+import br.edu.utfpr.pb.pw26s.server.model.TotalDto;
 import br.edu.utfpr.pb.pw26s.server.model.tipo.TipoMovimentaçao;
+import br.edu.utfpr.pb.pw26s.server.repository.ContaRepository;
 import br.edu.utfpr.pb.pw26s.server.service.CrudService;
 import br.edu.utfpr.pb.pw26s.server.service.MovimentacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class MovimentacaoController extends CrudController<Movimentacao, Long> {
 
     @Autowired
     private MovimentacaoService movimentacaoService;
+
+    @Autowired
+    ContaRepository contaRepository;
 
     @Override
     protected CrudService<Movimentacao, Long> getService() {
@@ -40,43 +45,46 @@ public class MovimentacaoController extends CrudController<Movimentacao, Long> {
     protected List<Movimentacao> findReceitaByContaUsuarioId(@PathVariable  Long id ){
         return this.movimentacaoService.findByTipoMovimentacaoAndContaUsuario(TipoMovimentaçao.RECEITA,id);
     }
-    @GetMapping("saldo/receita/{id}")
-    protected Total findSaldoReceitaByContaUsuarioId(@PathVariable  Long id ){
-        Double total =0.0;
-        List<Movimentacao> movimentacaos =
-                this.movimentacaoService.findByTipoMovimentacaoAndContaUsuario(TipoMovimentaçao.RECEITA,id);
-        for (Movimentacao movimentacao: movimentacaos){
-            total+= movimentacao.getValorPago();
-        }
-        return new Total(total);
-    }
-    @GetMapping("saldo/despesa/{id}")
-    protected Total findSaldoDespesaByContaUsuarioId(@PathVariable  Long id ){
-        Double total =0.0;
-        List<Movimentacao> movimentacaos =
-                this.movimentacaoService.findByTipoMovimentacaoAndContaUsuario(TipoMovimentaçao.DESPESA,id);
-        for (Movimentacao movimentacao: movimentacaos){
-            total+= movimentacao.getValorPago();
-        }
-        return new Total(total);
+    @GetMapping("user/transferencia/{id}")
+    protected List<Movimentacao> findTranferenciaByContaUsuarioId(@PathVariable  Long id ){
+        return this.movimentacaoService.findByTipoMovimentacaoAndContaUsuario(TipoMovimentaçao.TRANSFERENCIA,id);
     }
     @GetMapping("saldo/{id}")
-    protected Total findSaldoByContaUsuarioId(@PathVariable  Long id ){
-        Double total =0.0;
-        List<Movimentacao> movimentacaos = this.movimentacaoService.findByContaUsuarioId(id);
+    protected TotalDto findSaldoReceitaByContaUsuarioId(@PathVariable  Long id ){
+        TotalDto total= new TotalDto(0d,0d,0d,0d);
+        List<Movimentacao> movimentacaos =
+                this.movimentacaoService.findByContaUsuarioId(id);
         for (Movimentacao movimentacao: movimentacaos){
-            total+= movimentacao.getValorPago();
+            if (movimentacao.getTipoMovimentacao()==TipoMovimentaçao.RECEITA){
+                total.setTotalReceita(total.getTotalReceita()+ movimentacao.getValorPago());
+                total.setTotal(total.getTotal()+ movimentacao.getValorPago());
+            }else if (movimentacao.getTipoMovimentacao()==TipoMovimentaçao.DESPESA){
+                total.setTotalDespesa(total.getTotalDespesa()+ movimentacao.getValorPago());
+                total.setTotal(total.getTotal()- movimentacao.getValorPago());
+            }else if (movimentacao.getTipoMovimentacao()==TipoMovimentaçao.TRANSFERENCIA){
+                total.setTotalMovimentacao(total.getTotalMovimentacao()+ movimentacao.getValorPago());
+                total.setTotal(total.getTotal()+ movimentacao.getValorPago());
+            }
         }
-        return new Total(total);
+        return  total;
     }
+
+
     @PostMapping("/{id}")
     protected void saveTransferencia(@PathVariable Long id, @RequestBody @Valid Movimentacao movimentacao){
-        movimentacao =this.movimentacaoService.save(movimentacao);
-        movimentacao.setTipoMovimentacao(TipoMovimentaçao.RECEITA);
-        movimentacao.setDescricao(movimentacao.getDescricao()+ "  Transferencia de "+movimentacao.getConta().getNumero());
-        movimentacao.getConta().setId(id);
-        movimentacao.setId(null);
-        movimentacaoService.save(movimentacao);
+        movimentacao = this.movimentacaoService.save(movimentacao);
+        Movimentacao m2 = new Movimentacao();
+        m2.setTipoMovimentacao(TipoMovimentaçao.RECEITA);
+        m2.setValor(movimentacao.getValor());
+        m2.setCategoria(movimentacao.getCategoria());
+        m2.setDataVencimento(movimentacao.getDataVencimento());
+        m2.setDataPagamento(movimentacao.getDataPagamento());
+        m2.setValorPago(movimentacao.getValorPago());
+        Conta conta = contaRepository.findById(movimentacao.getConta().getId()).orElse(null);
+        m2.setDescricao(movimentacao.getDescricao()+ "  Transferencia de "+ conta.getNumero());
+
+        m2.setConta(contaRepository.findById(id).orElse(new Conta()));
+        movimentacaoService.save(m2);
 
     }
 
